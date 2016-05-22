@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="db.properties"/>
+
+	<typeAliases>
+		<!-- 在指定包中的类，可以使用别名(只有类名)，而不用使用全限定名 -->
+		<package name="com.lp.cinema.entity"/>
+	</typeAliases>
+
+	<!--数据库环境
+		default:默认使用的环境id值
+	-->
+	<environments default="development">
+		<!-- id数据库的编号 -->
+		<environment id="development">
+			<!--数据库事务处理
+				type处理方式:jdbc:数据库自己处理
+				manager:交给容器处理:spring
+			-->
+			<transactionManager type="JDBC"/>
+			<!-- 数据源 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+</environments>
+<mappers>
+	<mapper resource="mapper/FilmTypeMapper.xml"/>
+	<mapper resource="mapper/FilmInfoMapper.xml"/>
+</mappers>
+</configuration>
