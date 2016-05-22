@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	 <context:component-scan base-package="com.lp"/>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		p:driverClassName="oracle.jdbc.driver.OracleDriver"
+		p:url="jdbc:oracle:thin:@127.0.0.1:1521:orcl" 
+		p:username="scott" 
+		p:password ="a"
+	/>
+	<!-- sqlSessionFactory对象 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="dataSource" 
+		p:typeAliasesPackage="com.lp.model.entity"
+		p:mapperLocations="classpath:mapper/*Mapper.xml"
+		/>
+		
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		p:sqlSessionFactoryBeanName="sqlSessionFactory"
+		p:basePackage="com.lp.model.mapper"
+	/>	
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource"
+	/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
